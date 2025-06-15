@@ -21,23 +21,29 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean addProduct(Product product) {
         ProductsEntity entity = new ModelMapper().map(product, ProductsEntity.class);
+        entity.setId(generateId());
         entity.setCreatedAt(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-        entity.setUpdatedAt(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         return repository.add(entity);
     }
 
     @Override
     public boolean deleteProduct(String id) {
-        return false;
+        return repository.deleteById(id);
     }
 
     @Override
     public boolean updateProduct(Product product) {
-        return false;
+        ProductsEntity productsEntity = new ModelMapper().map(product, ProductsEntity.class);
+        productsEntity.setUpdatedAt(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        return repository.update(productsEntity);
     }
 
     @Override
     public Product searchById(String id) {
+        ProductsEntity productsEntity = repository.searchById(id);
+        if(productsEntity!=null){
+            return  new ModelMapper().map(productsEntity, Product.class);
+        }
         return null;
     }
 
@@ -49,4 +55,17 @@ public class ProductServiceImpl implements ProductService {
         entityList.forEach(productsEntity -> allProducts.add(new ModelMapper().map(productsEntity, Product.class)));
         return allProducts;
     }
+
+    @Override
+    public String generateId() {
+        String lastId = repository.findLastProductId();
+        if (lastId!=null){
+            int number = Integer.parseInt(lastId.replaceAll("[^0-9]", ""));
+            number++;
+            return String.format("P%03d",number);
+        }else{
+            return "P001";
+        }
+    }
+
 }

@@ -2,7 +2,6 @@ package repository;
 
 import javafx.collections.ObservableList;
 
-import java.util.List;
 
 public interface CrudRepository<T,ID> extends SuperRepository{
     boolean add(T entity);

@@ -9,6 +9,7 @@ import util.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class ProductRepositoryImpl implements ProductRepository {
     @Override
@@ -33,17 +34,52 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public boolean update(ProductsEntity entity) {
+        try {
+            CrudUtil.execute("UPDATE product_entity SET name=? , category=? , size=? , stock=? , price=? , updated_at=? WHERE id=?",
+                    entity.getName(),
+                    entity.getCategory(),
+                    entity.getSize(),
+                    entity.getStock(),
+                    entity.getPrice(),
+                    entity.getUpdatedAt(),
+                    entity.getId()
+            );
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
 
-        return false;
     }
 
     @Override
-    public boolean deleteById(String s) {
-        return false;
+    public boolean deleteById(String id) {
+        try {
+            CrudUtil.execute("DELETE FROM product_entity WHERE id='"+id+"'" );
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+
     }
 
     @Override
-    public ProductsEntity searchById(String s) {
+    public ProductsEntity searchById(String id) {
+        try {
+            ResultSet resultSet=CrudUtil.execute("SELECT * FROM product_entity WHERE id='"+id+"'");
+            while (resultSet.next()){
+                return new ProductsEntity(
+                        resultSet.getString(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getString(4),
+                        resultSet.getLong(5),
+                        resultSet.getDouble(6)
+                );
+            }
+
+        } catch (SQLException e) {
+            return null;
+        }
         return null;
     }
 
@@ -67,4 +103,24 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
         return allProductsEntityList;
     }
+
+    @Override
+    public List<String> getAllIds() {
+        return List.of();
+    }
+
+    @Override
+    public String findLastProductId() {
+        try {
+           ResultSet resultSet= CrudUtil.execute("SELECT id FROM product_entity ORDER BY created_at DESC LIMIT 1");
+
+           if(resultSet.next()){
+               return resultSet.getString("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
+

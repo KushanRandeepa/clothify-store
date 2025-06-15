@@ -65,10 +65,8 @@ public class ProductFormController implements Initializable {
     @FXML
     private TextField txtSearch;
     @FXML
-    private JFXTextField txtSize;
-    @FXML
     private JFXTextField txtStock;
-    public JFXComboBox<String> comBoxSixe;
+    public JFXComboBox<String> comBoxSize;
 
     @FXML
     void btnOnActionDashboard(ActionEvent event) {
@@ -81,7 +79,7 @@ public class ProductFormController implements Initializable {
             currentStage.hide();
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+           new Alert(Alert.AlertType.ERROR,"Load error").show();
         }
     }
 
@@ -105,39 +103,27 @@ public class ProductFormController implements Initializable {
 
     @FXML
     void onActionReload(ActionEvent event) {
+        loadTable();
+        clearTextFields();
     }
 
     @FXML
-    void OnactionSearch(ActionEvent event) {
-
+    void btnOnActionSearch(ActionEvent event) {
+        Product product = service.searchById(txtSearch.getText());
+        if (product==null){
+            new Alert(Alert.AlertType.ERROR,"No").show();
+        }else {
+            addValueToText(product);
+        }
     }
 
     @FXML
     void btnOnActionAdd(ActionEvent event) {
+        Product product = getValuesFromTexts();
+        if(product==null) return;
 
-        String id = txtId.getText();
-        String name = txtName.getText();
-        String priceStr = txtPrice.getText();
-        String size = comBoxSixe.getValue();
-        String stockStr = txtStock.getText();
-        String category = String.valueOf(comboxCategory.getValue());
-
-        if (id.isEmpty() || name.isEmpty() || priceStr.isEmpty() || size.isEmpty() || category.isEmpty() || stockStr.isEmpty() ) {
-            new Alert(Alert.AlertType.WARNING, "Please fill in all fields.").show();
-            return;
-        }
-
-        double price;
-        long stock;
         try {
-            stock= Long.parseLong(stockStr);
-            price = Double.parseDouble(priceStr);
-        } catch (NumberFormatException e) {
-            new Alert(Alert.AlertType.ERROR, "Invalid  format. Please enter again.").show();
-            return;
-        }
-        try {
-            boolean b = service.addProduct(new Product(id, name, category, size, stock, price));
+            boolean b = service.addProduct(product);
             if (b) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Product Add Successfully.").show();
                 loadTable();
@@ -153,19 +139,38 @@ public class ProductFormController implements Initializable {
     }
 
     @FXML
-    void btnOnActionUpadte(ActionEvent event) {
+    void btnOnActionUpdate(ActionEvent event) {
+        Product product = getValuesFromTexts();
+        if(product==null) return;
+        boolean isUpdate = service.updateProduct(product);
+        if (isUpdate){
+            new Alert(Alert.AlertType.CONFIRMATION,"Product is Updated").show();
+            loadTable();
+        }else {
+            new Alert(Alert.AlertType.ERROR,"not Updated").show();
+        }
 
     }
 
     @FXML
-    void btnOnActiondelete(ActionEvent event) {
-
+    void btnOnActionDelete(ActionEvent event) {
+        Product product = getValuesFromTexts();
+        if(product!=null){
+            boolean isDeleted = service.deleteProduct(product.getId());
+            if(isDeleted){
+                new Alert(Alert.AlertType.CONFIRMATION, product.getId()+" This Product Is Deleted!").show();
+                loadTable();
+            }else {
+                new Alert(Alert.AlertType.ERROR,"not delete").show();
+            }
+        }
     }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         btnProducts.setDisable(true);
+        txtId.setDisable(true);
         loadComboBoxValues();
 
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -189,8 +194,7 @@ tableProduct.getSelectionModel().selectedItemProperty().addListener((observableV
         txtStock.setText(String.valueOf(newValue.getStock()));
         txtPrice.setText(String.valueOf(newValue.getPrice()));
         comboxCategory.setValue(newValue.getCategory());
-        comBoxSixe.setValue(newValue.getSize());
-
+        comBoxSize.setValue(newValue.getSize());
     }
 
     void loadComboBoxValues(){
@@ -202,7 +206,7 @@ tableProduct.getSelectionModel().selectedItemProperty().addListener((observableV
         sizeList.add("XL");
         sizeList.add("2XL");
         sizeList.add("3XL");
-        comBoxSixe.setItems(sizeList);
+        comBoxSize.setItems(sizeList);
 
         ObservableList<String> categoryList = FXCollections.observableArrayList();
         categoryList.add("Gents");
@@ -216,6 +220,34 @@ tableProduct.getSelectionModel().selectedItemProperty().addListener((observableV
     }
     void loadTable(){
         tableProduct.setItems(service.getAll());
+    }
+    Product getValuesFromTexts(){
+
+        String id = txtId.getText();
+        String name = txtName.getText();
+        String priceStr = txtPrice.getText();
+        String size = comBoxSize.getValue();
+        String stockStr = txtStock.getText();
+        String category = String.valueOf(comboxCategory.getValue());
+
+        if (id.isEmpty() || name.isEmpty() || priceStr.isEmpty() || size.isEmpty() || category.isEmpty() || stockStr.isEmpty() ) {
+            new Alert(Alert.AlertType.WARNING, "Please fill in all fields.").show();
+            return null;
+        }
+        try {
+           return  new Product(id, name, category, size, Long.parseLong(stockStr), Double.parseDouble(priceStr));
+        } catch (NumberFormatException e) {
+            new Alert(Alert.AlertType.ERROR, "Invalid  format. Please enter again.").show();
+        }
+        return null ;
+    }
+    void clearTextFields(){
+        txtId.setText("");
+        txtPrice.setText("");
+        txtStock.setText("");
+        txtName.setText("");
+        comboxCategory.setValue("");
+        comBoxSize.setValue("");
     }
 
 }

@@ -11,4 +11,5 @@ public interface ProductService extends SuperService {
      boolean updateProduct(Product product);
      Product searchById(String id);
      ObservableList<Product> getAll();
+     String generateId();
 }
