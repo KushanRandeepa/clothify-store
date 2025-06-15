@@ -15,6 +15,9 @@ public class ProductsEntity {
     private String category;
     private String size;
     private Long stock;
+    private Double price;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public ProductsEntity(String id, String name, String category, String size, Long stock, Double price) {
         this.id = id;
@@ -25,8 +28,6 @@ public class ProductsEntity {
         this.price = price;
     }
 
-    private Double price;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+
 
 }

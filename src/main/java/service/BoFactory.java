@@ -1,5 +1,6 @@
 package service;
 
+import service.custom.impl.AuthServiceImpl;
 import service.custom.impl.ProductServiceImpl;
 import util.ServiceType;
 
@@ -14,6 +15,7 @@ public class BoFactory {
     public <T extends SuperService>T getServiceType(ServiceType type){
         switch (type){
             case PRODUCT:return (T) new ProductServiceImpl();
+            case AUTH:return (T) new AuthServiceImpl();
 
         }
         return null;
