@@ -56,14 +56,12 @@ public class AuthServiceImpl implements AuthService {
             switch (role) {
                 case ADMIN:return String.format("AD%03d", number);
                 case CASHIER:return String.format("CA%03d", number);
-                case EMPLOYEE:return String.format("EM%03d", number);
+//                case EMPLOYEE:return String.format("EM%03d", number);
                 case SUPPLIER:return String.format("SPP%03d", number);
                 default:
                     throw new IllegalArgumentException("Unsupported role: " + role);
             }
         }
-
-
 
     @Override
     public LoginResponse login(UserLogin loginData) {

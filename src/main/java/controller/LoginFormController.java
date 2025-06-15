@@ -20,7 +20,7 @@ import util.ServiceType;
 import java.io.IOException;
 
 public class LoginFormController {
-AuthService service= BoFactory.getInstance().getServiceType(ServiceType.AUTH);
+    AuthService service = BoFactory.getInstance().getServiceType(ServiceType.AUTH);
     @FXML
     private JFXButton btnLogin;
 
@@ -43,31 +43,27 @@ AuthService service= BoFactory.getInstance().getServiceType(ServiceType.AUTH);
 
         try {
             Stage stage = new Stage();
-            switch (loginResponse.getRole()){
+            switch (loginResponse.getRole()) {
                 case ADMIN:
                     stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/admin_dashboard_form.fxml"))));
-                    stage.show();break;
-                    default:  stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/product_form.fxml"))));
-                        stage.show();break;
+                    stage.show();
+                    break;
+                case CASHIER:
+                    stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/cashier_dashboard_form.fxml"))));
+                    stage.show();
+                    break;
+                default:
+                    stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/product_form.fxml"))));
+                    stage.show();
+                    break;
 
             }
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             currentStage.hide();
         } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR,"LoginFailed").show();
+            new Alert(Alert.AlertType.ERROR, "LoginFailed").show();
         }
 
-    }
-
-    @FXML
-    void btnSignUpOnAction(ActionEvent event) {
-        Stage stage = new Stage();
-        try {
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/signup_form.fxml"))));
-            stage.show();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }

@@ -1,7 +1,6 @@
 package service;
 
-import service.custom.impl.AuthServiceImpl;
-import service.custom.impl.ProductServiceImpl;
+import service.custom.impl.*;
 import util.ServiceType;
 
 public class BoFactory {
@@ -16,7 +15,11 @@ public class BoFactory {
         switch (type){
             case PRODUCT:return (T) new ProductServiceImpl();
             case AUTH:return (T) new AuthServiceImpl();
-
+            case USER:return (T) new UserManagerServiceImpl();
+            case SUPPLIER:return (T) new SupplierServiceImpl();
+            case ORDER:return (T) new OrderServiceImpl();
+            case EMPLOYEE:return (T) new EmployeeServiceImpl();
+            case REPORTS:return (T) new ReportsServiceImpl();
         }
         return null;
     }

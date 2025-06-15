@@ -1,5 +1,5 @@
 package util;
 
 public enum UserRoles {
-    ADMIN,EMPLOYEE,SUPPLIER,CASHIER
+    ADMIN,SUPPLIER,CASHIER
 }

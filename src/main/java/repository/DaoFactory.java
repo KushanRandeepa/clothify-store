@@ -1,7 +1,6 @@
 package repository;
 
-import repository.custom.impl.ProductRepositoryImpl;
-import repository.custom.impl.UserRepositoryImpl;
+import repository.custom.impl.*;
 import util.Repositorytype;
 
 public class DaoFactory {
@@ -19,6 +18,9 @@ public class DaoFactory {
         switch (type){
             case PRODUCT:return (T) new ProductRepositoryImpl();
             case USER:return (T) new UserRepositoryImpl();
+            case ORDER:return (T) new OrderRepositoryImpl();
+            case EMPLOYEE:return (T) new EmployeeRepositoryImpl();
+            case SUPPLIER:return (T) new SupplierRepositoryImpl();
         }
         return null;
     }

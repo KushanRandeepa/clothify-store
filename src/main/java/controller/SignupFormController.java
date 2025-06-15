@@ -78,8 +78,7 @@ public class SignupFormController implements Initializable {
         ObservableList<UserRoles> roles = FXCollections.observableArrayList();
         roles.add(UserRoles.ADMIN);
         roles.add(UserRoles.CASHIER);
-        roles.add(UserRoles.SUPPLIER);
-        roles.add(UserRoles.EMPLOYEE);
+//        roles.add(UserRoles.SUPPLIER);
         comboRole.setItems(roles);
     }
 }
