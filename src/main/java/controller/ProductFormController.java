@@ -31,6 +31,10 @@ public class ProductFormController implements Initializable {
     ProductService service = BoFactory.getInstance().getServiceType(ServiceType.PRODUCT);
 
     @FXML
+    public JFXTextField txtDiscount;
+    @FXML
+    public TableColumn<?,?> colDiscount;
+    @FXML
     private JFXButton btnAdd;
     @FXML
     private JFXButton btnDelete;
@@ -179,6 +183,7 @@ public class ProductFormController implements Initializable {
         colSize.setCellValueFactory(new PropertyValueFactory<>("size"));
         colStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        colDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
 
 tableProduct.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) ->{
     if (newValue != null) {
@@ -229,13 +234,14 @@ tableProduct.getSelectionModel().selectedItemProperty().addListener((observableV
         String size = comBoxSize.getValue();
         String stockStr = txtStock.getText();
         String category = String.valueOf(comboxCategory.getValue());
+        Double discount= Double.valueOf(txtDiscount.getText());
 
         if (id.isEmpty() || name.isEmpty() || priceStr.isEmpty() || size.isEmpty() || category.isEmpty() || stockStr.isEmpty() ) {
             new Alert(Alert.AlertType.WARNING, "Please fill in all fields.").show();
             return null;
         }
         try {
-           return  new Product(id, name, category, size, Long.parseLong(stockStr), Double.parseDouble(priceStr));
+           return  new Product(id, name, category, size, Long.parseLong(stockStr), Double.parseDouble(priceStr),discount);
         } catch (NumberFormatException e) {
             new Alert(Alert.AlertType.ERROR, "Invalid  format. Please enter again.").show();
         }

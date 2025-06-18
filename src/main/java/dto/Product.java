@@ -17,6 +17,9 @@ public class Product {
     private String size;
     private Long stock;
     private Double price;
+    private Double discount;
+
+
 //    private LocalDateTime createdAt;
 //    private LocalDateTime updatedAt;
 }

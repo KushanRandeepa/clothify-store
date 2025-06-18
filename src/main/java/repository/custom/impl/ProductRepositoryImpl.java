@@ -73,7 +73,8 @@ public class ProductRepositoryImpl implements ProductRepository {
                         resultSet.getString(3),
                         resultSet.getString(4),
                         resultSet.getLong(5),
-                        resultSet.getDouble(6)
+                        resultSet.getDouble(6),
+                        resultSet.getDouble(9)
                 );
             }
 
@@ -95,7 +96,8 @@ public class ProductRepositoryImpl implements ProductRepository {
                         resultSet.getString("category"),
                         resultSet.getString("size"),
                         resultSet.getLong("stock"),
-                        resultSet.getDouble("price")
+                        resultSet.getDouble("price"),
+                        resultSet.getDouble("discount")
                 ));
             }
         } catch (SQLException e) {
@@ -121,6 +123,16 @@ public class ProductRepositoryImpl implements ProductRepository {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void updateStock(String id, Long qty) {
+        try {
+            CrudUtil.execute("UPDATE product_entity SET stock=stock-? WHERE id=?",
+                    qty,id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

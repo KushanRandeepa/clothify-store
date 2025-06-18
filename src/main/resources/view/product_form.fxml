@@ -65,7 +65,7 @@
                   <Font name="System Bold Italic" size="14.0" />
                </font></JFXTextField>
             <ComboBox fx:id="comboxCategory" layoutX="706.0" layoutY="158.0" prefWidth="150.0" promptText="Category" />
-            <JFXTextField fx:id="txtStock" layoutX="713.0" layoutY="234.0" prefHeight="26.0" prefWidth="126.0" promptText="Stock" />
+            <JFXTextField fx:id="txtStock" layoutX="769.0" layoutY="234.0" prefHeight="26.0" prefWidth="70.0" promptText="Stock" />
             <JFXTextField fx:id="txtPrice" layoutX="494.0" layoutY="234.0" prefHeight="26.0" prefWidth="126.0" promptText="Price" />
             <JFXButton layoutX="776.0" layoutY="75.0" onAction="#btnOnActionSearch" prefHeight="26.0" prefWidth="88.0" style="-fx-background-color: pink;" text="Search" />
             <TextField fx:id="txtSearch" layoutX="620.0" layoutY="75.0" promptText="Search Pruduct By Id" />
@@ -87,11 +87,12 @@
             <TableView fx:id="tableProduct" layoutX="271.0" layoutY="394.0" prefHeight="200.0" prefWidth="595.0">
               <columns>
                 <TableColumn fx:id="colId" prefWidth="46.4000244140625" text="ID" />
-                <TableColumn fx:id="colName" prefWidth="162.39996337890625" text="Name" />
-                  <TableColumn fx:id="colCategory" minWidth="5.5999755859375" prefWidth="150.4000244140625" text="Category" />
-                  <TableColumn fx:id="colSize" prefWidth="56.79998779296875" text="Size" />
-                  <TableColumn fx:id="colPrice" prefWidth="99.20001220703125" text="Price" />
-                  <TableColumn fx:id="colStock" prefWidth="84.80010986328125" text="Stock" />
+                <TableColumn fx:id="colName" prefWidth="159.199951171875" text="Name" />
+                  <TableColumn fx:id="colCategory" minWidth="5.5999755859375" prefWidth="114.4000244140625" text="Category" />
+                  <TableColumn fx:id="colSize" prefWidth="54.39996337890625" text="Size" />
+                  <TableColumn fx:id="colStock" prefWidth="56.80010986328125" text="Stock" />
+                  <TableColumn fx:id="colPrice" prefWidth="92.7999267578125" text="Price" />
+                  <TableColumn fx:id="colDiscount" prefWidth="73.5999755859375" text="Discount" />
               </columns>
             </TableView>
             <JFXButton fx:id="btnReload" layoutX="483.0" layoutY="602.0" onAction="#onActionReload" prefHeight="30.0" prefWidth="126.0" style="-fx-background-color: green;" text="Reload" textFill="WHITE">
@@ -105,6 +106,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
+            <JFXTextField fx:id="txtDiscount" layoutX="659.0" layoutY="234.0" prefHeight="26.0" prefWidth="70.0" promptText="Discount" />
          </children>
       </AnchorPane>
    </children>

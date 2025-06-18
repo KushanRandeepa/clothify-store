@@ -16,16 +16,19 @@ public class ProductsEntity {
     private String size;
     private Long stock;
     private Double price;
+    private Double discount;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public ProductsEntity(String id, String name, String category, String size, Long stock, Double price) {
+    public ProductsEntity(String id, String name, String category, String size, Long stock, Double price,Double discount) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.size = size;
         this.stock = stock;
         this.price = price;
+        this.discount=discount;
     }
 
 
