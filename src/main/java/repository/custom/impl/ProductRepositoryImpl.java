@@ -1,5 +1,6 @@
 package repository.custom.impl;
 
+import entity.OrdersDetailsEntity;
 import entity.ProductsEntity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ProductRepositoryImpl implements ProductRepository {
+public class  ProductRepositoryImpl implements ProductRepository {
     @Override
     public boolean add(ProductsEntity entity) {
         try {
@@ -120,18 +121,33 @@ public class ProductRepositoryImpl implements ProductRepository {
                return resultSet.getString("id");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR,String.valueOf(e)).show();
         }
         return null;
     }
 
     @Override
-    public void updateStock(String id, Long qty) {
+    public boolean updateStock(List<OrdersDetailsEntity> list)   {
+        for (OrdersDetailsEntity entity:list){
+            boolean isUpdate = updateStock(entity);
+            if(!isUpdate){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    public boolean updateStock(OrdersDetailsEntity ordersDetails)   {
         try {
             CrudUtil.execute("UPDATE product_entity SET stock=stock-? WHERE id=?",
-                    qty,id);
+                    ordersDetails.getQty(),
+                    ordersDetails.getProductId()
+            );
+            return true;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.ERROR,String.valueOf(e)).show();
+            return false;
         }
     }
 }

@@ -19,6 +19,7 @@ import util.ServiceType;
 import util.UserRoles;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class SignupFormController implements Initializable {
@@ -63,14 +64,21 @@ public class SignupFormController implements Initializable {
             return;
         }
 
-        boolean isSignup = service.signup(new UserSignup(username, password, email, phoneNumber, role));
-        if(isSignup){
-            new Alert(Alert.AlertType.CONFIRMATION,"You are Signup as a "+role+" Successfully").show();
-            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            currentStage.hide();
-        }else {
-            new Alert(Alert.AlertType.ERROR,"Signup Fail!").show();
+        boolean isSignup = false;
+        try {
+            isSignup = service.signup(new UserSignup(username, password, email, phoneNumber, role));
+            
+            if(isSignup){
+                new Alert(Alert.AlertType.CONFIRMATION,"You are Signup as a "+role+" Successfully").show();
+                Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                currentStage.hide();
+            }else {
+                new Alert(Alert.AlertType.ERROR,"Signup Fail!").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, String.valueOf(e)).show();
         }
+
     }
 
     @Override

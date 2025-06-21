@@ -13,6 +13,7 @@ import util.Repositorytype;
 import util.UserRoles;
 
 import javax.swing.*;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -28,12 +29,13 @@ public class AuthServiceImpl implements AuthService {
     UserRepository repository= DaoFactory.getInstance().getRepositoryType(Repositorytype.USER);
 
     @Override
-    public boolean signup(UserSignup signupData) {
+    public boolean signup(UserSignup signupData) throws SQLException {
         UserSignupEntity entity = new ModelMapper().map(signupData, UserSignupEntity.class);
         entity.setCreatedAt(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         entity.setId(generateId(entity.getRole()));
         entity.setPassword(textEncryptor.encrypt(signupData.getPassword()));
         return repository.add(entity);
+
 
     }
 

@@ -9,8 +9,18 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrdersDetails {
+public class OrderDetails {
     private String orderId;
+
+    public OrderDetails(String productId, String productName, Long qty, Double price, Double totalPrice, Double discount) {
+        this.productId = productId;
+        this.productName = productName;
+        this.qty = qty;
+        this.price = price;
+        this.totalPrice = totalPrice;
+        this.discount = discount;
+    }
+
     private String productId;
     private String productName;
     private Long qty;

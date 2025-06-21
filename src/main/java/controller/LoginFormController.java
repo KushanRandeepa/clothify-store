@@ -49,7 +49,7 @@ public class LoginFormController {
                     stage.show();
                     break;
                 case CASHIER:
-                    stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/cashier_dashboard_form.fxml"))));
+                    stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/orders_form.fxml"))));
                     stage.show();
                     break;
                 default:
