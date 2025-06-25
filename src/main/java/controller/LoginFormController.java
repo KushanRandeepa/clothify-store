@@ -10,17 +10,21 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import service.BoFactory;
 import service.custom.AuthService;
+import service.custom.UserManagerService;
 import util.ServiceType;
 
 import java.io.IOException;
 
 public class LoginFormController {
     AuthService service = BoFactory.getInstance().getServiceType(ServiceType.AUTH);
+    UserManagerService userManagerService= BoFactory.getInstance().getServiceType(ServiceType.USER);
+
     @FXML
     private JFXButton btnLogin;
 
@@ -45,12 +49,24 @@ public class LoginFormController {
             Stage stage = new Stage();
             switch (loginResponse.getRole()) {
                 case ADMIN:
-                    stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/admin_dashboard_form.fxml"))));
+                    FXMLLoader adminFormLoader = new FXMLLoader(getClass().getResource("../view/admin_dashboard_form.fxml"));
+                    Parent adminRoot = adminFormLoader.load();
+                    AdminFormController adminFormController=adminFormLoader.getController();
+                    adminFormController.setAdminId(loginResponse.getId());
+                    userManagerService.updateLoginTime(loginResponse.getId());
+                    stage.setScene(new Scene(adminRoot));
                     stage.show();
                     break;
                 case CASHIER:
-                    stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/orders_form.fxml"))));
+                    FXMLLoader cashierFormLoader = new FXMLLoader(getClass().getResource("../view/cashier_dashboard_form.fxml"));
+                    Parent cashierRoot = cashierFormLoader.load();
+                    CashierFormController cashierFormController=cashierFormLoader.getController();
+                    cashierFormController.setCashierId(loginResponse.getId());
+                    userManagerService.updateLoginTime(loginResponse.getId());
+                    stage.setScene(new Scene(cashierRoot));
                     stage.show();
+
+
                     break;
                 default:
                     stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/product_form.fxml"))));

@@ -1,5 +1,6 @@
 package service.custom.impl;
 
+import db.DBConnection;
 import dto.BillDetails;
 import dto.Orders;
 import dto.OrderDetails;
@@ -7,6 +8,10 @@ import dto.Product;
 import entity.OrdersDetailsEntity;
 import entity.OrdersEntity;
 import javafx.collections.ObservableList;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import org.modelmapper.ModelMapper;
 import repository.DaoFactory;
 import repository.custom.OrderDetailRepository;
@@ -22,12 +27,13 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OrderServiceImpl implements OrderService {
 
     ProductService productService= BoFactory.getInstance().getServiceType(ServiceType.PRODUCT);
     OrdersRepository ordersRepository=DaoFactory.getInstance().getRepositoryType(Repositorytype.ORDER);
-    OrderDetailRepository orderDetailRepository=DaoFactory.getInstance().getRepositoryType(Repositorytype.ORDER_DETAIL);
 
     @Override
     public OrderDetails addToCart(String productId  ,Long qty) {
@@ -43,14 +49,12 @@ public class OrderServiceImpl implements OrderService {
         double totalAmountOfBill = 0.0;
         double totalDiscount=0.0;
         for (OrderDetails details : list) {
-            double totalAmount = details.getPrice() * details.getQty();
-            double discount = totalAmount * (details.getDiscount() / 100);
+            double totalAmount =Math.floor((details.getPrice()* details.getQty())*100)/100;
+            double discount = Math.floor((totalAmount * (details.getDiscount() / 100))*100)/100;
             netTotalAmountofBill += totalAmount - discount;
             totalAmountOfBill += totalAmount;
             totalDiscount += discount;
         }
-//            productRepository.updateStock(details.getProductId(), details.getQty());
-
         return new BillDetails(totalAmountOfBill, totalDiscount, netTotalAmountofBill);
 
     }
@@ -63,7 +67,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Double calculateBalance(String amount,String netTotalAmount) {
-        return (Double.parseDouble(amount))-( Double.parseDouble(netTotalAmount));
+        double balance = (Double.parseDouble(amount)) - (Double.parseDouble(netTotalAmount));
+        return Math.floor(balance*100)/100.0;
 
     }
 
@@ -93,8 +98,20 @@ return false;
     }
 
     @Override
-    public boolean printOrder() {
-        return false;
+    public boolean printOrder(String orderId) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("orderId", orderId);
+        try {
+            JasperDesign design = JRXmlLoader.load("src/main/resources/report/ClothfyStoreBill.jrxml");
+            JasperReport jasperReport = JasperCompileManager.compileReport(design);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConnection.getInstance().getConnection());
+            JasperExportManager.exportReportToPdfFile(jasperPrint,"bill.pdf");
+            JasperViewer.viewReport(jasperPrint,false);
+            return true;
+        } catch (JRException | SQLException e) {
+            return false;
+        }
+
     }
 
     @Override

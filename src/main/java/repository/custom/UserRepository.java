@@ -1,11 +1,14 @@
 package repository.custom;
 
-import entity.UserSignupEntity;
+import entity.UserEntity;
 import repository.CrudRepository;
 
-public interface UserRepository extends CrudRepository<UserSignupEntity ,String> {
+import java.time.LocalDateTime;
+
+public interface UserRepository extends CrudRepository<UserEntity,String> {
     String findLastProductId();
-    UserSignupEntity checkUsernameForLogin(String username);
+    UserEntity checkUsernameForLogin(String username);
+    Boolean updateLoginTime(LocalDateTime dateTime ,String id);
 //    void updateLastLoginTime(String username);
 
 }

@@ -1,0 +1,197 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="ClothfyStoreBill" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6285973e-f4ff-41a5-bffb-2bc2345b9650">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (7)"/>
+	<parameter name="orderId" class="java.lang.String"/>
+	<query language="SQL"><![CDATA[SELECT * FROM orders WHERE order_id = $P{orderId}
+]]></query>
+	<field name="order_id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="order_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="order_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="cashier_id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="cashier_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="cashier_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="customer_id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="customer_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="customer_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="order_date" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="order_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="order_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="order_time" class="java.sql.Time">
+		<property name="com.jaspersoft.studio.field.name" value="order_time"/>
+		<property name="com.jaspersoft.studio.field.label" value="order_time"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="total_price" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="total_price"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_price"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="total_discount_amount" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="total_discount_amount"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_discount_amount"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="net_total_price" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="net_total_price"/>
+		<property name="com.jaspersoft.studio.field.label" value="net_total_price"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="payment_amount" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="payment_amount"/>
+		<property name="com.jaspersoft.studio.field.label" value="payment_amount"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="balance" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="balance"/>
+		<property name="com.jaspersoft.studio.field.label" value="balance"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<background splitType="Stretch"/>
+	<title height="79" splitType="Stretch">
+		<element kind="staticText" uuid="b5635cf4-4c5c-4005-ad87-34a9958f5407" x="100" y="10" width="340" height="57" fontSize="33.0" hTextAlign="Center">
+			<text><![CDATA[Clthify Store]]></text>
+			<box>
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+	</title>
+	<pageHeader height="87" splitType="Stretch">
+		<element kind="textField" uuid="af8402dc-ea3a-41af-b517-b6b9664bf756" x="130" y="0" width="110" height="30" fontSize="16.0" bold="true" hTextAlign="Center">
+			<expression><![CDATA[$F{order_id}]]></expression>
+			<box>
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="18b75b1f-3f0c-451c-a2d2-6bb2ad7fb612" x="130" y="30" width="110" height="20" fontSize="13.0" bold="true" hTextAlign="Center">
+			<expression><![CDATA[$F{cashier_id}]]></expression>
+			<box>
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="51b3b2f8-3581-4663-945d-8a6e86331ac3" x="320" y="0" width="100" height="30" fontSize="12.0" hTextAlign="Left">
+			<expression><![CDATA[$F{order_date}]]></expression>
+		</element>
+		<element kind="textField" uuid="912e07f2-a410-47c3-9db7-623fd4687d79" x="440" y="0" width="100" height="30" fontSize="12.0" hTextAlign="Left">
+			<expression><![CDATA[$F{order_time}]]></expression>
+		</element>
+		<element kind="staticText" uuid="53dc2c0d-ff17-4812-b83f-27f0221a4842" x="30" y="0" width="100" height="30" fontSize="13.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[OrderID      ]]></text>
+			<box>
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="6b444d0e-8a4f-4750-90ec-8bd39bc288e4" x="30" y="30" width="100" height="20" fontSize="13.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Cashier ID      ]]></text>
+			<box>
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="5a765759-921e-4f19-b0d3-9098a713e65a" x="30" y="50" width="100" height="19" fontSize="13.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Customer ID   ]]></text>
+			<box>
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="272412aa-c41e-4be9-9949-fcea774bb645" x="130" y="50" width="110" height="20" fontSize="14.0" hTextAlign="Center">
+			<expression><![CDATA[$F{customer_id}]]></expression>
+			<box>
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+	</pageHeader>
+	<columnHeader height="238" splitType="Stretch">
+		<element kind="subreport" uuid="e4bc2511-4c5b-4c8e-941f-28b8e4c6389f" x="-3" y="30" width="560" height="200">
+			<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+			<expression><![CDATA["OrderDetailsSubreport.jasper"
+]]></expression>
+			<parameter name="order_id">
+				<expression><![CDATA[$P{orderId}]]></expression>
+			</parameter>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</detail>
+	<columnFooter height="192">
+		<element kind="staticText" uuid="708a8911-1649-4cba-a213-de973fb8f5db" x="140" y="160" width="160" height="30" fontSize="16.0" bold="true">
+			<text><![CDATA[Balance]]></text>
+		</element>
+		<element kind="textField" uuid="0111688f-f955-48e4-94db-4385ed420eed" x="340" y="160" width="100" height="30" fontSize="14.0">
+			<expression><![CDATA[$F{balance}]]></expression>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1512387b-f036-4ce0-aff7-d624076e70e0"/>
+		</element>
+		<element kind="staticText" uuid="2ee9f61c-534c-40d2-8634-c034fd5b18df" x="140" y="120" width="160" height="30" fontSize="16.0" bold="true">
+			<text><![CDATA[Payment Amount]]></text>
+		</element>
+		<element kind="staticText" uuid="895d1444-cd04-40c5-8544-98b1e6e0e775" x="140" y="83" width="160" height="30" fontSize="16.0" bold="true">
+			<text><![CDATA[Net Total Amount   ]]></text>
+		</element>
+		<element kind="textField" uuid="8c43a6ae-cc22-457a-989d-777a4192aa3a" x="340" y="120" width="100" height="30" fontSize="14.0">
+			<expression><![CDATA[$F{payment_amount}]]></expression>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="62862593-2004-4828-93d7-fc2ba2c800c4"/>
+		</element>
+		<element kind="textField" uuid="552c7491-892d-45dd-a2f7-f4f25d31f8c8" x="340" y="83" width="100" height="26" fontSize="13.0">
+			<expression><![CDATA[$F{net_total_price}]]></expression>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bfb11599-57da-43f1-b698-321e7885ff6d"/>
+		</element>
+		<element kind="staticText" uuid="2e92b8ad-acdf-4f3d-8600-5317908bf0ff" x="140" y="50" width="160" height="30" fontSize="16.0" bold="true">
+			<text><![CDATA[Total Discount ]]></text>
+		</element>
+		<element kind="textField" uuid="8c94331d-2b54-4e1b-903e-4b44ea9003a3" x="340" y="50" width="100" height="20" fontSize="13.0">
+			<expression><![CDATA[$F{total_discount_amount}]]></expression>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="27f43169-0f5c-485c-a070-b5d0ac00c417"/>
+		</element>
+		<element kind="staticText" uuid="648628e2-4257-4ae0-9b92-b0254585c749" x="140" y="10" width="160" height="30" fontSize="13.0" bold="true">
+			<text><![CDATA[Total Amount   ]]></text>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="8a71c6e8-4f82-4c04-8c85-fd2c57303446" x="340" y="10" width="100" height="30" fontSize="13.0">
+			<expression><![CDATA[$F{total_price}]]></expression>
+		</element>
+	</columnFooter>
+	<pageFooter height="59" splitType="Stretch">
+		<element kind="staticText" uuid="908c3f4b-c29c-43fe-8ff9-fc42dadfe7b4" x="110" y="4" width="320" height="50" backcolor="#E63A37" fontSize="22.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Thank You]]></text>
+		</element>
+	</pageFooter>
+	<summary height="50" splitType="Stretch">
+		<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+	</summary>
+</jasperReport>

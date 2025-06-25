@@ -16,7 +16,7 @@ public class BoFactory {
             case PRODUCT:return (T) new ProductServiceImpl();
             case AUTH:return (T) new AuthServiceImpl();
             case USER:return (T) new UserManagerServiceImpl();
-            case SUPPLIER:return (T) new SupplierServiceImpl();
+            case CASHIER:return (T) new CashierServiceImpl();
             case ORDER:return (T) new OrderServiceImpl();
             case EMPLOYEE:return (T) new EmployeeServiceImpl();
             case REPORTS:return (T) new ReportsServiceImpl();

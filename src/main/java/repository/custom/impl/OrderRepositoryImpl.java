@@ -7,7 +7,9 @@ import entity.OrdersEntity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import org.modelmapper.ModelMapper;
+import repository.CrudRepository;
 import repository.DaoFactory;
 import repository.custom.OrderDetailRepository;
 import repository.custom.OrdersRepository;
@@ -19,6 +21,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class OrderRepositoryImpl implements OrdersRepository {
@@ -38,6 +41,8 @@ public class OrderRepositoryImpl implements OrdersRepository {
         }
         return null;
     }
+
+
 
     @Override
     public boolean add(OrdersEntity ordersEntity) throws SQLException {
@@ -100,4 +105,39 @@ String sql="INSERT INTO orders VALUES(?,?,?,?,?,?,?,?,?,?)";
     public ObservableList<OrdersEntity> getAll() {
         return null;
     }
+
+
+    @Override
+    public List<OrdersEntity> searchOrdersById(String id) {
+        ObservableList<OrdersEntity>ordersList=FXCollections.observableArrayList();
+        try {
+            ResultSet resultSet=CrudUtil.execute("SELECT * FROM orders WHERE  cashier_id='"+id+"'");
+            while (resultSet.next()){
+                ordersList.add(new OrdersEntity(
+                        resultSet.getString(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getDate(4).toLocalDate(),
+                        resultSet.getTime(5).toLocalTime(),
+                        resultSet.getDouble(6),
+                        resultSet.getDouble(7),
+                        resultSet.getDouble(8),
+                        resultSet.getDouble(9),
+                        resultSet.getDouble(10)
+                ));
+            }
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,"db error").show();
+        }
+        return ordersList;
+    }
+
+    @Override
+    public List<OrdersEntity> searchOrdersByDate(String id, LocalDate date) {
+
+        return null;
+    }
+
+
 }

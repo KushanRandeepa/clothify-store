@@ -4,7 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import dto.UserSignup;
+import dto.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -66,7 +66,7 @@ public class SignupFormController implements Initializable {
 
         boolean isSignup = false;
         try {
-            isSignup = service.signup(new UserSignup(username, password, email, phoneNumber, role));
+            isSignup = service.signup(new User(username, password, email, phoneNumber, role));
             
             if(isSignup){
                 new Alert(Alert.AlertType.CONFIRMATION,"You are Signup as a "+role+" Successfully").show();

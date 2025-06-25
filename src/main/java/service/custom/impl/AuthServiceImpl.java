@@ -2,8 +2,8 @@ package service.custom.impl;
 
 import dto.LoginResponse;
 import dto.UserLogin;
-import dto.UserSignup;
-import entity.UserSignupEntity;
+import dto.User;
+import entity.UserEntity;
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.modelmapper.ModelMapper;
 import repository.DaoFactory;
@@ -12,7 +12,6 @@ import service.custom.AuthService;
 import util.Repositorytype;
 import util.UserRoles;
 
-import javax.swing.*;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -29,8 +28,8 @@ public class AuthServiceImpl implements AuthService {
     UserRepository repository= DaoFactory.getInstance().getRepositoryType(Repositorytype.USER);
 
     @Override
-    public boolean signup(UserSignup signupData) throws SQLException {
-        UserSignupEntity entity = new ModelMapper().map(signupData, UserSignupEntity.class);
+    public boolean signup(User signupData) throws SQLException {
+        UserEntity entity = new ModelMapper().map(signupData, UserEntity.class);
         entity.setCreatedAt(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         entity.setId(generateId(entity.getRole()));
         entity.setPassword(textEncryptor.encrypt(signupData.getPassword()));
@@ -67,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public LoginResponse login(UserLogin loginData) {
-        UserSignupEntity entity = repository.checkUsernameForLogin(loginData.getUsername());
+        UserEntity entity = repository.checkUsernameForLogin(loginData.getUsername());
 
         if(entity==null) return null;
         String decryptPassword = textEncryptor.decrypt(entity.getPassword());

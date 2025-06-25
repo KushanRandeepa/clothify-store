@@ -6,56 +6,53 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="641.0" prefWidth="908.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminFormController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1043.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminFormController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9ab427" height="200.0" layoutX="213.0" layoutY="441.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="699.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff1f7d" height="140.0" layoutX="213.0" layoutY="302.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="385.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1fff69" height="200.0" layoutX="216.0" layoutY="103.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="692.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0c373b" height="649.0" layoutY="-5.0" stroke="BLACK" strokeType="INSIDE" width="228.0" />
-      <JFXButton layoutX="14.0" layoutY="151.0" onAction="#btnOnActionproducts" prefHeight="39.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: blue;" text="PRODUCT" textFill="WHITE">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0c373b" height="707.0" layoutY="-5.0" stroke="BLACK" strokeType="INSIDE" width="228.0" />
+      <JFXButton layoutX="14.0" layoutY="159.0" onAction="#btnOnActionproducts" prefHeight="39.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: blue;" text="PRODUCT" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="14.0" layoutY="215.0" onAction="#btnOnActionOrders" prefHeight="39.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: blue;" text="ORDERS" textFill="WHITE">
+      <JFXButton layoutX="14.0" layoutY="225.0" onAction="#btnOnActionOrders" prefHeight="39.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: blue;" text="ORDERS" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="14.0" layoutY="280.0" onAction="#btnOnActionEmplyees" prefHeight="39.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: blue;" text=" EMPLOYEES" textFill="WHITE">
+      <JFXButton layoutX="14.0" layoutY="291.0" onAction="#btnOnActionEmplyees" prefHeight="39.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: blue;" text=" EMPLOYEES" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="14.0" layoutY="344.0" onAction="#btnOnActionSuppliers" prefHeight="39.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: blue;" text="SUPPLIERS" textFill="WHITE">
+      <JFXButton layoutX="14.0" layoutY="357.0" onAction="#btnOnActionSuppliers" prefHeight="39.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: blue;" text="SUPPLIERS" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="14.0" layoutY="407.0" onAction="#btnOnActionReports" prefHeight="39.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: blue;" text="REPORTS" textFill="WHITE">
+      <JFXButton layoutX="14.0" layoutY="425.0" onAction="#btnOnActionReports" prefHeight="39.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: blue;" text="REPORTS" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="14.0" layoutY="467.0" onAction="#btnOnActionUserManager" prefHeight="39.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: blue;" text="USER MANAGER" textFill="WHITE">
+      <JFXButton layoutX="14.0" layoutY="489.0" onAction="#btnOnActionUserManager" prefHeight="39.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: blue;" text="USER MANAGER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1a3c40" height="103.0" layoutX="225.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="686.0" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="147.0" layoutY="16.0" prefHeight="66.0" prefWidth="675.0" text="CLOTHIFY STORE" textFill="WHITE">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="28.0" prefHeight="48.0" prefWidth="187.0" text="CLOTHIFY STORE" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="48.0" />
-         </font>
-      </Label>
-      <Label layoutX="373.0" layoutY="133.0" prefHeight="35.0" prefWidth="296.0" text="Admin Dashboard">
-         <font>
-            <Font name="System Bold Italic" size="24.0" />
+            <Font name="System Bold Italic" size="22.0" />
          </font>
       </Label>
       <JFXButton fx:id="btnDashboard" layoutX="14.0" layoutY="93.0" onAction="#btnOnActionproducts" prefHeight="39.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: blue;" text="DASHBOARD" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
+         </font>
+      </JFXButton>
+      <AnchorPane fx:id="root" layoutX="226.0" layoutY="-4.0" prefHeight="707.0" prefWidth="816.0" />
+      <JFXButton layoutX="14.0" layoutY="547.0" onAction="#btnOnActionproducts" prefHeight="6.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: white;" text="PRODUCT" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
          </font>
       </JFXButton>
    </children>

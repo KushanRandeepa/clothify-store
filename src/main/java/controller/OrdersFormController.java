@@ -2,10 +2,12 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import db.DBConnection;
 import dto.BillDetails;
 import dto.Orders;
 import dto.OrderDetails;
 import dto.Product;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,6 +15,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lombok.Setter;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import service.BoFactory;
 import service.custom.OrderService;
 import service.custom.ProductService;
@@ -20,12 +27,14 @@ import util.ServiceType;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class OrdersFormController implements Initializable {
-
-    @FXML
-    private JFXTextField txtCashierId;
+    public Label lblCashierId;
+    @Setter
+    private String cashierId;
     @FXML
     private JFXButton btnAddToCart;
     @FXML
@@ -72,8 +81,6 @@ public class OrdersFormController implements Initializable {
     private TableView<OrderDetails> tableCart;
     @FXML
     private TableView<Product> tableProduct;
-    @FXML
-    private JFXTextField txtCashierID;
     @FXML
     private JFXTextField txtPaymentAmount;
     @FXML
@@ -158,7 +165,24 @@ public class OrdersFormController implements Initializable {
 
     @FXML
     void btnPrintBillOnAction(ActionEvent event) {
+        cartTableList= FXCollections.observableArrayList();
+        tableCart.setItems(null);
+        resetAllAndNewOrder();
+    }
 
+    private void resetAllAndNewOrder() {
+        btnAddToCart.setDisable(false);
+        btnPlaceOrder.setDisable(true);
+        btnPrntBill.setDisable(true);
+        btnSendEmail.setDisable(true);
+        loadProductTableDetails();
+        lblOrderId.setText(orderService.generateOrderId());
+        lblBalance.setText("");
+        lblNetTotal.setText("");
+        lblTotalAmount.setText("");
+        lblTotalDiscount.setText("");
+        txtPaymentAmount.setText("");
+        txtTotal.setText("");
     }
 
     @FXML
@@ -171,9 +195,7 @@ public class OrdersFormController implements Initializable {
         Double balance = orderService.calculateBalance(txtPaymentAmount.getText(), lblNetTotal.getText());
         lblBalance.setText(String.valueOf(balance));
 
-
             addOrder();
-
 
         btnSendEmail.setDisable(false);
         btnPrntBill.setDisable(false);
@@ -183,8 +205,10 @@ public class OrdersFormController implements Initializable {
         try {
             boolean isOrderAdd = orderService.addOrder(new Orders(
                     lblOrderId.getText(),
-                    txtCashierId.getText(),
+                    lblCashierId.getText(),
                     "001",
+                    null,
+                    null,
                     Double.valueOf(lblTotalAmount.getText()),
                     Double.valueOf(lblTotalDiscount.getText()),
                     Double.valueOf(lblNetTotal.getText()),
@@ -207,23 +231,28 @@ public class OrdersFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        colCTId.setCellValueFactory(new PropertyValueFactory<>("productId"));
-        colCTName.setCellValueFactory(new PropertyValueFactory<>("productName"));
-        colCTQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
-        colCTPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-        colCTDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
-        colCTTotalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
-        colPTId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colPTName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colPTStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        Platform.runLater(()-> {
+            lblCashierId.setText(cashierId);
+            colCTId.setCellValueFactory(new PropertyValueFactory<>("productId"));
+            colCTName.setCellValueFactory(new PropertyValueFactory<>("productName"));
+            colCTQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+            colCTPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+            colCTDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
+            colCTTotalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
+            colPTId.setCellValueFactory(new PropertyValueFactory<>("id"));
+            colPTName.setCellValueFactory(new PropertyValueFactory<>("name"));
+            colPTStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
 
-        loadProductTableDetails();
-        loadCartTable();
+            cartTableList= FXCollections.observableArrayList();
 
-        lblOrderId.setText(orderService.generateOrderId());
-        btnPlaceOrder.setDisable(true);
-        btnPrntBill.setDisable(true);
-        btnSendEmail.setDisable(true);
+            loadProductTableDetails();
+
+
+            lblOrderId.setText(orderService.generateOrderId());
+            btnPlaceOrder.setDisable(true);
+            btnPrntBill.setDisable(true);
+            btnSendEmail.setDisable(true);
+        });
 
     }
 
@@ -237,8 +266,6 @@ public class OrdersFormController implements Initializable {
         });
     }
 
-    public  void loadCartTable(){
-        cartTableList= FXCollections.observableArrayList();
-    }
+
 
 }

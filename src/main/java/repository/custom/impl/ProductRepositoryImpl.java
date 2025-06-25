@@ -36,12 +36,13 @@ public class  ProductRepositoryImpl implements ProductRepository {
     @Override
     public boolean update(ProductsEntity entity) {
         try {
-            CrudUtil.execute("UPDATE product_entity SET name=? , category=? , size=? , stock=? , price=? , updated_at=? WHERE id=?",
+            CrudUtil.execute("UPDATE product_entity SET name=? , category=? , size=? , stock=? , price=? , discount=? ,updated_at=? WHERE id=?",
                     entity.getName(),
                     entity.getCategory(),
                     entity.getSize(),
                     entity.getStock(),
                     entity.getPrice(),
+                    entity.getDiscount(),
                     entity.getUpdatedAt(),
                     entity.getId()
             );
@@ -92,7 +93,7 @@ public class  ProductRepositoryImpl implements ProductRepository {
             ResultSet resultSet = CrudUtil.execute("SELECT * FROM product_entity");
             while (resultSet.next()){
                 allProductsEntityList.add(new ProductsEntity(
-                        resultSet.getNString("id"),
+                        resultSet.getString("id"),
                         resultSet.getString("name"),
                         resultSet.getString("category"),
                         resultSet.getString("size"),

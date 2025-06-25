@@ -73,39 +73,6 @@ public class ProductFormController implements Initializable {
     public JFXComboBox<String> comBoxSize;
 
     @FXML
-    void btnOnActionDashboard(ActionEvent event) {
-        Stage stage = new Stage();
-        try {
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/admin_dashboard_form.fxml"))));
-            stage.show();
-
-            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            currentStage.hide();
-
-        } catch (IOException e) {
-           new Alert(Alert.AlertType.ERROR,"Load error").show();
-        }
-    }
-
-    @FXML
-    void btnOnActionEmplyees(ActionEvent event) {
-    }
-    @FXML
-    void btnOnActionOrders(ActionEvent event) {
-    }
-    @FXML
-    void btnOnActionReports(ActionEvent event) {
-
-    }
-    @FXML
-    void btnOnActionSuppliers(ActionEvent event) {
-    }
-    @FXML
-    void btnOnActionUserManager(ActionEvent event) {
-    }
-
-
-    @FXML
     void onActionReload(ActionEvent event) {
         loadTable();
         clearTextFields();
@@ -173,7 +140,7 @@ public class ProductFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        btnProducts.setDisable(true);
+
         txtId.setDisable(true);
         loadComboBoxValues();
 
@@ -224,7 +191,9 @@ tableProduct.getSelectionModel().selectedItemProperty().addListener((observableV
 
     }
     void loadTable(){
+
         tableProduct.setItems(service.getAll());
+        System.out.println(service.getAll());
     }
     Product getValuesFromTexts(){
 
