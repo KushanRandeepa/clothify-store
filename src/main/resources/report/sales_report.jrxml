@@ -1,0 +1,39 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="salesreport" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fc49a399-05a4-4a6a-b124-40094243af1b">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="clothifyStore"/>
+	<query language="SQL"><![CDATA[SELECT order_date AS sales_date, SUM(net_total_price) AS total_sales
+FROM orders
+GROUP BY order_date
+ORDER BY order_date;
+]]></query>
+	<field name="sales_date" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="order_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="sales_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="total_sales" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="total_sales"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_sales"/>
+	</field>
+	<background splitType="Stretch"/>
+	<title height="79" splitType="Stretch">
+		<element kind="staticText" uuid="3514635d-3132-4899-9fbf-32c37c16f990" x="120" y="14" width="280" height="51" fontSize="25.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Daily Sales Summary]]></text>
+		</element>
+	</title>
+	<summary height="395" splitType="Stretch">
+		<element kind="chart" chartType="bar" uuid="b1444bd0-bc7a-44bb-bdf4-0727c712eb24" x="0" y="0" width="555" height="395" evaluationTime="Report">
+			<dataset kind="category">
+				<series>
+					<seriesExpression><![CDATA["SERIES 1"]]></seriesExpression>
+					<categoryExpression><![CDATA[$F{sales_date}]]></categoryExpression>
+					<valueExpression><![CDATA[$F{total_sales}]]></valueExpression>
+				</series>
+			</dataset>
+			<plot categoryAxisLabelColor="#000000" categoryAxisTickLabelColor="#000000" categoryAxisLineColor="#000000" valueAxisLabelColor="#000000" valueAxisTickLabelColor="#000000" valueAxisLineColor="#000000">
+				<itemLabel/>
+			</plot>
+		</element>
+	</summary>
+</jasperReport>

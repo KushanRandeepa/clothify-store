@@ -20,7 +20,6 @@ public class DaoFactory {
             case USER:return (T) new UserRepositoryImpl();
             case ORDER:return (T) new OrderRepositoryImpl();
             case EMPLOYEE:return (T) new EmployeeRepositoryImpl();
-            case SUPPLIER:return (T) new SupplierRepositoryImpl();
             case ORDER_DETAIL:return (T) new OrderDetailRepositoryImpl();
         }
         return null;
