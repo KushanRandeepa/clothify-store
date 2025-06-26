@@ -2,6 +2,7 @@ package service.custom.impl;
 
 import dto.User;
 import entity.UserEntity;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.modelmapper.ModelMapper;
 import repository.DaoFactory;
@@ -25,13 +26,18 @@ public class UserManagerServiceImpl implements UserManagerService {
     }
 
     @Override
-    public ObservableList<UserEntity> getAllUsers() {
-        return userRepository.getAll();
+    public ObservableList<User> getAllUsers() {
+        ObservableList<User>userList= FXCollections.observableArrayList();
+        ObservableList<UserEntity> userEntityList = userRepository.getAll();
+        for(UserEntity entity:userEntityList){
+            userList.add(new ModelMapper().map(entity,User.class));
+        }
+        return userList;
     }
 
     @Override
-    public UserEntity searchUser(String id) {
-        return userRepository.searchById(id);
+    public User searchUser(String id) {
+        return new ModelMapper().map(userRepository.searchById(id),User.class);
     }
 
     @Override

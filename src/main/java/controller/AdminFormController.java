@@ -5,8 +5,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import lombok.Setter;
 import java.io.IOException;
 import java.net.URL;
@@ -17,13 +20,14 @@ public class AdminFormController implements Initializable {
 
     public JFXButton btnDashboard;
     public AnchorPane root;
+    public JFXButton btnLogOut;
     @Setter
     private String adminId;
 
 
     @FXML
         void btnOnActionEmplyees(ActionEvent event) throws IOException {
-        URL resource = this.getClass().getResource("../view/user_manager_form.fxml");
+        URL resource = this.getClass().getResource("../view/employee_form.fxml");
         assert resource!=null;
         Parent load = FXMLLoader.load(resource);
         this.root.getChildren().clear();
@@ -42,7 +46,7 @@ public class AdminFormController implements Initializable {
 
         @FXML
         void btnOnActionReports(ActionEvent event) throws IOException {
-            URL resource = this.getClass().getResource("../view/user_manager_form.fxml");
+            URL resource = this.getClass().getResource("../view/login_form.fxml");
             assert resource!=null;
             Parent load = FXMLLoader.load(resource);
             this.root.getChildren().clear();
@@ -51,7 +55,7 @@ public class AdminFormController implements Initializable {
 
         @FXML
         void btnOnActionSuppliers(ActionEvent event) throws IOException {
-            URL resource = this.getClass().getResource("../view/user_manager_form.fxml");
+            URL resource = this.getClass().getResource("../view/supplier_form.fxml");
             assert resource!=null;
             Parent load = FXMLLoader.load(resource);
             this.root.getChildren().clear();
@@ -83,6 +87,21 @@ public class AdminFormController implements Initializable {
 
                 }
         );
+    }
+
+    public void btnLogOutOnAction(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/login_form.fxml"))));
+            stage.setResizable(true);
+            stage.show();
+
+            Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            currentStage.hide();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

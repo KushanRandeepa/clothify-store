@@ -1,12 +1,16 @@
 package repository.custom.impl;
 
 import entity.OrdersDetailsEntity;
+import entity.OrdersEntity;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import repository.custom.OrderDetailRepository;
 import util.CrudUtil;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDetailRepositoryImpl implements OrderDetailRepository {
@@ -38,8 +42,30 @@ public class OrderDetailRepositoryImpl implements OrderDetailRepository {
             new Alert(Alert.AlertType.ERROR,String.valueOf(e)).show();
             return false;
         }
-
     }
+
+    @Override
+    public List<OrdersDetailsEntity>  searchOrderDetailsById(String id) {
+        List<OrdersDetailsEntity>ordersList=new ArrayList<>();
+        try {
+            ResultSet resultSet=CrudUtil.execute("SELECT * FROM order_details WHERE order_id='"+id+"'");
+            while (resultSet.next()){
+                ordersList.add(new OrdersDetailsEntity(
+                        resultSet.getString(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getLong(4),
+                        resultSet.getDouble(5),
+                        resultSet.getDouble(6),
+                        resultSet.getDouble(7)
+                ));
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,"db error").show();
+        }
+        return ordersList;
+    }
+
 
     @Override
     public boolean add(OrdersDetailsEntity entity) throws SQLException {

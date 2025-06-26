@@ -50,9 +50,14 @@
          </font>
       </JFXButton>
       <AnchorPane fx:id="root" layoutX="226.0" layoutY="-4.0" prefHeight="707.0" prefWidth="816.0" />
-      <JFXButton layoutX="14.0" layoutY="547.0" onAction="#btnOnActionproducts" prefHeight="6.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: white;" text="PRODUCT" textFill="WHITE">
+      <JFXButton layoutX="14.0" layoutY="529.0" onAction="#btnOnActionproducts" prefHeight="6.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: white;" text="PRODUCT" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="btnLogOut" layoutX="14.0" layoutY="555.0" onAction="#btnLogOutOnAction" prefHeight="39.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: blue;" text="Logout" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
    </children>

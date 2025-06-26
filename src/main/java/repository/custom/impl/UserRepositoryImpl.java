@@ -54,8 +54,6 @@ public class UserRepositoryImpl implements UserRepository {
         } catch (SQLException e) {
             return false;
         }
-
-
     }
 
 

@@ -29,6 +29,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class CashierFormController implements Initializable {
+
     CashierService service= BoFactory.getInstance().getServiceType(ServiceType.CASHIER);
     private ObservableList<Node> originalChildren;
     @Setter
@@ -81,12 +82,13 @@ public class CashierFormController implements Initializable {
     private TableView<Orders> tableOrdersToday;
     @FXML
     private TextField txtSearch;
+    public JFXButton btnLogOut;
 
     @FXML
     void btnPlaceorderOnAction(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/orders_form.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/placeOrder_form.fxml"));
         Parent load = loader.load();
-        OrdersFormController controller = loader.getController();
+        PlaceOrdersFormController controller = loader.getController();
         controller.setCashierId(cashierId);
 
         this.root.getChildren().clear();
@@ -140,6 +142,23 @@ public class CashierFormController implements Initializable {
      this.root.getChildren().clear();
      this.root.getChildren().addAll(originalChildren);
     }
-}
+
+    public void btnLogOutOnAction(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/login_form.fxml"))));
+            stage.setResizable(true);
+            stage.show();
+
+            Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            currentStage.hide();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    }
+
 
 

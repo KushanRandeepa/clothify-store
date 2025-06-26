@@ -23,6 +23,9 @@ public class Orders {
     private Double totalPrice;
     private Double totalDiscountAmount;
     private Double netTotalPrice;
+    private Double paymentAmount;
+    private Double balance;
+    private List<OrderDetails>ordersDetails;
 
     public Orders(String orderId, String cashierId, String customerId, LocalDate orderDate, LocalTime orderTime, Double totalPrice, Double totalDiscountAmount, Double netTotalPrice, Double paymentAmount, Double balance) {
         this.orderId = orderId;
@@ -37,8 +40,6 @@ public class Orders {
         this.balance = balance;
     }
 
-    private Double paymentAmount;
-    private Double balance;
-    private List<OrderDetails>ordersDetails;
+
 
 }

@@ -1,271 +1,102 @@
 package controller;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextField;
-import db.DBConnection;
-import dto.BillDetails;
-import dto.Orders;
+import com.jfoenix.controls.JFXListView;
 import dto.OrderDetails;
-import dto.Product;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import dto.Orders;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lombok.Setter;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.view.JasperViewer;
 import service.BoFactory;
 import service.custom.OrderService;
-import service.custom.ProductService;
 import util.ServiceType;
 
 import java.net.URL;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class OrdersFormController implements Initializable {
-    public Label lblCashierId;
-    @Setter
-    private String cashierId;
-    @FXML
-    private JFXButton btnAddToCart;
-    @FXML
-    private JFXButton btnCancel;
-    @FXML
-    private JFXButton btnEdit;
-    @FXML
-    private JFXButton btnPlaceOrder;
-    @FXML
-    private JFXButton btnPrntBill;
-    @FXML
-    private JFXButton btnSendEmail;
-    @FXML
-    private TableColumn<?, ?> colCTDiscount;
-    @FXML
-    private TableColumn<?, ?> colCTId;
-    @FXML
-    private TableColumn<?, ?> colCTName;
-    @FXML
-    private TableColumn<?, ?> colCTPrice;
-    @FXML
-    private TableColumn<?, ?> colCTQty;
-    @FXML
-    private TableColumn<?, ?> colCTTotalPrice;
-    @FXML
-    private TableColumn<?, ?> colPTId;
-    @FXML
-    private TableColumn<?, ?> colPTName;
-    @FXML
-    private TableColumn<?, ?> colPTStock;
-    @FXML
-    private Label lblBalance;
-    @FXML
-    private Label lblNetTotal;
-    @FXML
-    private Label lblProductId;
-    @FXML
-    private Label lblProductName;
-    @FXML
-    private Label lblTotalAmount;
-    @FXML
-    private Label lblTotalDiscount;
-    @FXML
-    private TableView<OrderDetails> tableCart;
-    @FXML
-    private TableView<Product> tableProduct;
-    @FXML
-    private JFXTextField txtPaymentAmount;
-    @FXML
-    private TextField txtQty;
-    @FXML
-    private TextField txtTotal;
-    @FXML
-    private Label lblOrderId;
 
-
-    ProductService productService= BoFactory.getInstance().getServiceType(ServiceType.PRODUCT);
-    OrderService orderService =BoFactory.getInstance().getServiceType(ServiceType.PLACE_ORDER);
-    ObservableList<OrderDetails> cartTableList;
-    Double totalView=0.0;
-
-
+    OrderService orderService= BoFactory.getInstance().getServiceType(ServiceType.ORDER);
 
     @FXML
-    void btnAddToCartOnAction(ActionEvent event) {
-        String qtyStr = txtQty.getText().trim(); // Trim to remove whitespace
-        String id = lblProductId.getText();
-        long qty;
-
-        if (qtyStr.isEmpty()) {
-            new Alert(Alert.AlertType.ERROR, "Enter the Quantity").show();
-            return;
+    private TableColumn<?, ?> colCashierId;
+    @FXML
+    private TableColumn<?, ?> colBalance;
+    @FXML
+    private TableColumn<?, ?> colCustId;
+    @FXML
+    private TableColumn<?, ?> colDiscount;
+    @FXML
+    private TableColumn<?, ?> colName;
+    @FXML
+    private TableColumn<?, ?> colOrderId;
+    @FXML
+    private TableColumn<?, ?> colPaymentAmount;
+    @FXML
+    private TableColumn<?, ?> colPrice;
+    @FXML
+    private TableColumn<?, ?> colProductId;
+    @FXML
+    private TableColumn<?, ?> colQty;
+    @FXML
+    private TableColumn<?, ?> colTotalAmount;
+    @FXML
+    private TableColumn<?, ?> colTotalDiscount;
+    @FXML
+    private TableColumn<?, ?> coldate;
+    @FXML
+    private TableColumn<?, ?> colnetTotalAmount;
+    @FXML
+    private TableColumn<?, ?> coltime;
+    @FXML
+    private TableColumn<?, ?> coltotalPrice;
+    @FXML
+    private JFXListView<String> listView;
+    @FXML
+    private TableView<OrderDetails> tableOrderDetails;
+    @FXML
+    private TableView<Orders> tableOrders;
+    @FXML
+    private TextField txtSearch;
+    @FXML
+    void btnSearchByIDOnAction(ActionEvent event) {
+        String searchText = txtSearch.getText();
+        if(searchText!=null){
+            tableOrderDetails.setItems(orderService.searchByOrderId(searchText));
         }
-        try {
-            qty = Long.parseLong(qtyStr);
-            if (qty <= 0) {
-                new Alert(Alert.AlertType.ERROR, "Quantity must be greater than 0").show();
-                return;
-            }
-        } catch (NumberFormatException e) {
-            new Alert(Alert.AlertType.ERROR, "Please enter a valid numeric Quantity").show();
-            return;
-        }
-
-        try {
-            if (orderService.checkQtyIsAvailable(id, qty)) {
-                    OrderDetails orderDetail = orderService.addToCart(id, qty);
-                    orderDetail.setOrderId(lblOrderId.getText());
-
-                    cartTableList.add(orderDetail);
-                    tableCart.setItems(cartTableList);
-
-                    totalView += orderDetail.getTotalPrice();
-                    txtTotal.setText(String.format("%.2f", totalView));
-                    txtQty.clear();
-                    lblProductName.setText("");
-                    lblProductId.setText("");
-                    btnPlaceOrder.setDisable(false);
-            } else {
-                new Alert(Alert.AlertType.ERROR, "Requested quantity is not available in stock.").show();
-            }
-        } catch (Exception ex) {
-            new Alert(Alert.AlertType.ERROR, "An unexpected error occurred: " + ex.getMessage()).show();
-        }
-    }
-
-    @FXML
-    void btnCancelOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void btnEditOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void btnPlaceOrderOnAction(ActionEvent event) {
-        BillDetails cartTable = orderService.placeOrder(cartTableList);
-            lblNetTotal.setText(String.valueOf(cartTable.getNetTotalAmount()));
-            lblTotalAmount.setText(String.valueOf(cartTable.getTotalAmount()));
-            lblTotalDiscount.setText(String.valueOf(cartTable.getTotalDiscount()));
-            loadProductTableDetails();
-            btnPlaceOrder.setDisable(true);
-            btnAddToCart.setDisable(true);
-
-    }
-
-    @FXML
-    void btnPrintBillOnAction(ActionEvent event) {
-        cartTableList= FXCollections.observableArrayList();
-        tableCart.setItems(null);
-        resetAllAndNewOrder();
-    }
-
-    private void resetAllAndNewOrder() {
-        btnAddToCart.setDisable(false);
-        btnPlaceOrder.setDisable(true);
-        btnPrntBill.setDisable(true);
-        btnSendEmail.setDisable(true);
-        loadProductTableDetails();
-        lblOrderId.setText(orderService.generateOrderId());
-        lblBalance.setText("");
-        lblNetTotal.setText("");
-        lblTotalAmount.setText("");
-        lblTotalDiscount.setText("");
-        txtPaymentAmount.setText("");
-        txtTotal.setText("");
-    }
-
-    @FXML
-    void btnSendEmailOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void calculateBalanceOnAction(ActionEvent event) {
-        Double balance = orderService.calculateBalance(txtPaymentAmount.getText(), lblNetTotal.getText());
-        lblBalance.setText(String.valueOf(balance));
-
-            addOrder();
-
-        btnSendEmail.setDisable(false);
-        btnPrntBill.setDisable(false);
-    }
-
-    private void addOrder() {
-        try {
-            boolean isOrderAdd = orderService.addOrder(new Orders(
-                    lblOrderId.getText(),
-                    lblCashierId.getText(),
-                    "001",
-                    null,
-                    null,
-                    Double.valueOf(lblTotalAmount.getText()),
-                    Double.valueOf(lblTotalDiscount.getText()),
-                    Double.valueOf(lblNetTotal.getText()),
-                    Double.valueOf(txtPaymentAmount.getText()),
-                    Double.valueOf(lblBalance.getText()),
-                    cartTableList
-            ));
-            if(isOrderAdd){
-                new Alert(Alert.AlertType.CONFIRMATION,"Order is Success!").show();
-
-            }else {
-                new Alert(Alert.AlertType.ERROR,"Order Not Save").show();
-
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,String.valueOf(e)).show();
-
-        }
+        listView.getItems().addAll("abhbvhjbj","uyuyguyu");
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Platform.runLater(()-> {
-            lblCashierId.setText(cashierId);
-            colCTId.setCellValueFactory(new PropertyValueFactory<>("productId"));
-            colCTName.setCellValueFactory(new PropertyValueFactory<>("productName"));
-            colCTQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
-            colCTPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-            colCTDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
-            colCTTotalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
-            colPTId.setCellValueFactory(new PropertyValueFactory<>("id"));
-            colPTName.setCellValueFactory(new PropertyValueFactory<>("name"));
-            colPTStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
 
-            cartTableList= FXCollections.observableArrayList();
+        colOrderId.setCellValueFactory(new PropertyValueFactory<>("orderId"));
+        colCustId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        colCashierId.setCellValueFactory(new PropertyValueFactory<>("cashierId"));
+        coldate.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
+        coltime.setCellValueFactory(new PropertyValueFactory<>("orderTime"));
+        colTotalAmount.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
+        colTotalDiscount.setCellValueFactory(new PropertyValueFactory<>("totalDiscountAmount"));
+        colnetTotalAmount.setCellValueFactory(new PropertyValueFactory<>("netTotalPrice"));
+        colPaymentAmount.setCellValueFactory(new PropertyValueFactory<>("paymentAmount"));
+        colBalance.setCellValueFactory(new PropertyValueFactory<>("balance"));
 
-            loadProductTableDetails();
+        colProductId.setCellValueFactory(new PropertyValueFactory<>("productId"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        coltotalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
+        colDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
 
-
-            lblOrderId.setText(orderService.generateOrderId());
-            btnPlaceOrder.setDisable(true);
-            btnPrntBill.setDisable(true);
-            btnSendEmail.setDisable(true);
-        });
-
+        loadTable();
     }
-
-    void loadProductTableDetails(){
-        tableProduct.setItems(productService.getAll());
-        tableProduct.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
-            if(newValue!=null){
-                lblProductId.setText(newValue.getId());
-                lblProductName.setText(newValue.getName());
-            }
-        });
+    void loadTable(){
+        tableOrders.setItems(orderService.getAllOrders());
     }
-
-
 
 }

@@ -71,7 +71,7 @@ public class UserManagerFormController implements Initializable {
     @FXML
     private TableColumn<?, ?> coluserRole;
     @FXML
-    private TableView<UserEntity> tableUsers;
+    private TableView<User> tableUsers;
     @FXML
     private JFXTextField txtCreatedAt;
 
@@ -104,89 +104,35 @@ public class UserManagerFormController implements Initializable {
 
     @FXML
     void btnDeleteUserOnAction(ActionEvent event) {
-        boolean b = userManagerService.deleteUser(txtId.getText());
-        if (b) {
-            new Alert(Alert.AlertType.CONFIRMATION, "Delete Successfully").show();
+        String id=txtId.getText();
+        if(id!=null) {
+            boolean b = userManagerService.deleteUser(id);
+            if (b) {
+                new Alert(Alert.AlertType.CONFIRMATION, "Delete Successfully").show();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Not Delete").show();
+            }
         }else {
-            new Alert(Alert.AlertType.ERROR,"Not Delete").show();
+            new Alert(Alert.AlertType.ERROR,"Please Select User ID ").show();
         }
     }
 
-    @FXML
-    void btnOnActionEmplyees(ActionEvent event) {
-        Stage stage = new Stage();
-        try {
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/signup_form.fxml"))));
-            stage.show();
-        } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR,"Signup Fail").show();
-        }
 
-    }
-
-    @FXML
-    void btnOnActionOrders(ActionEvent event) {
-        Stage stage = new Stage();
-        try {
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/signup_form.fxml"))));
-            stage.show();
-        } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR,"Signup Fail").show();
-        }
-    }
-
-    @FXML
-    void btnOnActionProducts(ActionEvent event) {
-        Stage stage = new Stage();
-        try {
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/signup_form.fxml"))));
-            stage.show();
-        } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR,"Signup Fail").show();
-        }
-    }
-
-    @FXML
-    void btnOnActionReports(ActionEvent event) {
-        Stage stage = new Stage();
-        try {
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/signup_form.fxml"))));
-            stage.show();
-        } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR,"Signup Fail").show();
-        }
-    }
-
-    @FXML
-    void btnOnActionSuppliers(ActionEvent event) {
-        Stage stage = new Stage();
-        try {
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/signup_form.fxml"))));
-            stage.show();
-        } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR,"Signup Fail").show();
-        }
-    }
-
-    @FXML
-    void btnOnActionUserManager(ActionEvent event) {
-
-    }
-
-    @FXML
-    void btnOnActionproducts(ActionEvent event) {
-        Stage stage = new Stage();
-        try {
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/signup_form.fxml"))));
-            stage.show();
-        } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR,"Signup Fail").show();
-        }
-    }
 
     @FXML
     void btnSearchOnaction(ActionEvent event) {
-        UserEntity userEntity = userManagerService.searchUser(txtSearch.getText());
+        User user = userManagerService.searchUser(txtSearch.getText());
+        if(user!=null) {
+            txtId.setText(user.getId());
+            txtEmail.setText(user.getEmail());
+            txtNumber.setText(user.getPhoneNumber());
+            txtUsername.setText(user.getUsername());
+            txtCreatedAt.setText(String.valueOf(user.getCreatedAt()));
+            txtLastLoginTime.setText(String.valueOf(user.getLastLoginAt()));
+            combRole.setValue(user.getRole());
+        }else {
+            new Alert(Alert.AlertType.ERROR,"User not available").show();
+        }
 
     }
 
@@ -236,7 +182,7 @@ public class UserManagerFormController implements Initializable {
         });
     }
 
-    private void addValueToText(UserEntity newValue) {
+    private void addValueToText(User newValue) {
         txtId.setText(newValue.getId());
         txtUsername.setText(newValue.getUsername());
         txtEmail.setText(newValue.getEmail());
@@ -247,8 +193,7 @@ public class UserManagerFormController implements Initializable {
     }
 
     private void loadTable() {
-        ObservableList<UserEntity> allUsersList = userManagerService.getAllUsers();
-        tableUsers.setItems(allUsersList);
+        tableUsers.setItems(userManagerService.getAllUsers());
 
     }
 }
