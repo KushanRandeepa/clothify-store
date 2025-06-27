@@ -30,7 +30,8 @@ import java.util.ResourceBundle;
 
 public class CashierFormController implements Initializable {
 
-    CashierService service= BoFactory.getInstance().getServiceType(ServiceType.CASHIER);
+    public JFXButton btnOrders;
+    CashierService service = BoFactory.getInstance().getServiceType(ServiceType.CASHIER);
     private ObservableList<Node> originalChildren;
     @Setter
     private String cashierId;
@@ -86,64 +87,18 @@ public class CashierFormController implements Initializable {
 
     @FXML
     void btnPlaceorderOnAction(ActionEvent event) throws IOException {
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/placeOrder_form.fxml"));
         Parent load = loader.load();
         PlaceOrdersFormController controller = loader.getController();
         controller.setCashierId(cashierId);
-
         this.root.getChildren().clear();
         this.root.getChildren().add(load);
 
     }
 
     @FXML
-    void btnSearchOnAction(ActionEvent event) {
-
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
-        Platform.runLater(()->{
-            lblId.setText(cashierId);
-
-                    colOrderId.setCellValueFactory(new PropertyValueFactory<>("orderId"));
-                    colBalance.setCellValueFactory(new PropertyValueFactory<>("balance"));
-                    colDate.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
-                    colCustId.setCellValueFactory(new PropertyValueFactory<>("cashierId"));
-                    colDiscount.setCellValueFactory(new PropertyValueFactory<>("totalDiscountAmount"));
-                    colNetTotal.setCellValueFactory(new PropertyValueFactory<>("netTotalPrice"));
-                    colPay.setCellValueFactory(new PropertyValueFactory<>("paymentAmount"));
-                    colTime.setCellValueFactory(new PropertyValueFactory<>("orderTime"));
-                    colTotal.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
-
-                    colOrderIdTdy.setCellValueFactory(new PropertyValueFactory<>("orderId"));
-                    colBalanceTdy.setCellValueFactory(new PropertyValueFactory<>("balance"));
-                    colNetTotalTdy.setCellValueFactory(new PropertyValueFactory<>("netTotalPrice"));
-                    colTimeTdy.setCellValueFactory(new PropertyValueFactory<>("orderTime"));
-                    colCustIdTdy.setCellValueFactory(new PropertyValueFactory<>("cashierId"));
-                    colPaymentTdy.setCellValueFactory(new PropertyValueFactory<>("paymentAmount"));
-
-            originalChildren = FXCollections.observableArrayList(root.getChildren());
-                     loadTable(cashierId);
-
-         }
-        );
-    }
-
-   void loadTable(String id){
-       tableOrdersSoFar.setItems(service.getAllOrders(id));
-       tableOrdersToday.setItems(service.getTodayOrders(id, LocalDate.now()));
-        lblSalesToday.setText(String.valueOf(service.todaySales(id, LocalDate.now())));
-    }
-
-    public void btndashboardOnAction(ActionEvent actionEvent) throws IOException {
-     this.root.getChildren().clear();
-     this.root.getChildren().addAll(originalChildren);
-    }
-
-    public void btnLogOutOnAction(ActionEvent actionEvent) {
+    void btnLogOutOnAction(ActionEvent actionEvent) {
         Stage stage = new Stage();
         try {
             stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/login_form.fxml"))));
@@ -154,11 +109,61 @@ public class CashierFormController implements Initializable {
             currentStage.hide();
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.ERROR, String.valueOf(e)).show();
         }
 
     }
+
+    @FXML
+    void btnOrdersOnAction(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/orders_form.fxml"));
+        Parent load = loader.load();
+        this.root.getChildren().clear();
+        this.root.getChildren().add(load);
     }
+
+    @FXML
+    void btnDashboardOnAction(ActionEvent actionEvent) {
+        this.root.getChildren().clear();
+        this.root.getChildren().addAll(originalChildren);
+        loadTable(cashierId);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        colOrderId.setCellValueFactory(new PropertyValueFactory<>("orderId"));
+        colBalance.setCellValueFactory(new PropertyValueFactory<>("balance"));
+        colDate.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
+        colCustId.setCellValueFactory(new PropertyValueFactory<>("cashierId"));
+        colDiscount.setCellValueFactory(new PropertyValueFactory<>("totalDiscountAmount"));
+        colNetTotal.setCellValueFactory(new PropertyValueFactory<>("netTotalPrice"));
+        colPay.setCellValueFactory(new PropertyValueFactory<>("paymentAmount"));
+        colTime.setCellValueFactory(new PropertyValueFactory<>("orderTime"));
+        colTotal.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
+        colOrderIdTdy.setCellValueFactory(new PropertyValueFactory<>("orderId"));
+        colBalanceTdy.setCellValueFactory(new PropertyValueFactory<>("balance"));
+        colNetTotalTdy.setCellValueFactory(new PropertyValueFactory<>("netTotalPrice"));
+        colTimeTdy.setCellValueFactory(new PropertyValueFactory<>("orderTime"));
+        colCustIdTdy.setCellValueFactory(new PropertyValueFactory<>("cashierId"));
+        colPaymentTdy.setCellValueFactory(new PropertyValueFactory<>("paymentAmount"));
+
+        Platform.runLater(() -> {
+                    lblId.setText(cashierId);
+                    originalChildren = FXCollections.observableArrayList(root.getChildren());
+                    loadTable(cashierId);
+
+                }
+        );
+    }
+
+    void loadTable(String id) {
+        tableOrdersSoFar.setItems(service.getAllOrders(id));
+        tableOrdersToday.setItems(service.getTodayOrders(id, LocalDate.now()));
+        lblSalesToday.setText(String.valueOf(service.todaySales(id, LocalDate.now())));
+    }
+
+}
 
 
 

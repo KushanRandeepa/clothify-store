@@ -35,4 +35,15 @@ public class OrderServiceImpl implements OrderService {
         allOrders.forEach(ordersEntity -> ordersList.add(new ModelMapper().map(ordersEntity, Orders.class)));
         return ordersList;
     }
+
+    @Override
+    public Orders getOrder(String id) {
+        ObservableList<Orders> allOrders = getAllOrders();
+        for (Orders order:allOrders){
+            if( order.getOrderId().equals(id)){
+                return order;
+            }
+        }
+        return null;
+    }
 }

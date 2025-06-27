@@ -6,6 +6,7 @@ import dto.Orders;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -21,7 +22,7 @@ import java.util.ResourceBundle;
 
 public class OrdersFormController implements Initializable {
 
-    OrderService orderService= BoFactory.getInstance().getServiceType(ServiceType.ORDER);
+    OrderService orderService = BoFactory.getInstance().getServiceType(ServiceType.ORDER);
 
     @FXML
     private TableColumn<?, ?> colCashierId;
@@ -63,13 +64,18 @@ public class OrdersFormController implements Initializable {
     private TableView<Orders> tableOrders;
     @FXML
     private TextField txtSearch;
+
     @FXML
     void btnSearchByIDOnAction(ActionEvent event) {
         String searchText = txtSearch.getText();
-        if(searchText!=null){
-            tableOrderDetails.setItems(orderService.searchByOrderId(searchText));
+        if (searchText == null) {
+            new Alert(Alert.AlertType.ERROR, "enter ID").show();
         }
-        listView.getItems().addAll("abhbvhjbj","uyuyguyu");
+        tableOrderDetails.setItems(orderService.searchByOrderId(searchText));
+        Orders order = orderService.getOrder(searchText);
+        if (order != null) {
+            loadList(order);
+        }
     }
 
     @Override
@@ -93,10 +99,31 @@ public class OrdersFormController implements Initializable {
         coltotalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
         colDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
 
+        tableOrders.getSelectionModel().selectedItemProperty().addListener((observableValue, oldvalue, newValue) -> {
+            tableOrderDetails.setItems(orderService.searchByOrderId(newValue.getOrderId()));
+            loadList(newValue);
+        });
         loadTable();
     }
-    void loadTable(){
+
+    void loadTable() {
         tableOrders.setItems(orderService.getAllOrders());
+    }
+
+    void loadList(Orders order) {
+        listView.getItems().clear();
+        listView.getItems().addAll(
+                "Order ID        =" + order.getOrderId(),
+                    "Cashier Id      =" + order.getCashierId(),
+                    "Customer Id     =" + order.getCustomerId(),
+                    "OrderDate       =" + order.getOrderDate(),
+                    "OrderTime       =" + order.getOrderTime(),
+                    "Total Price     =" + order.getTotalPrice(),
+                    "Total Discount  =" + order.getTotalDiscountAmount(),
+                    "Net Total Price =" + order.getNetTotalPrice(),
+                    "Payment Amount  =" + order.getPaymentAmount(),
+                    "Balance         =" + order.getBalance()
+        );
     }
 
 }

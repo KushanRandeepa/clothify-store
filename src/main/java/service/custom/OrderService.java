@@ -9,5 +9,5 @@ import service.SuperService;
 public interface OrderService extends SuperService {
     ObservableList<OrderDetails> searchByOrderId(String id);
     ObservableList<Orders>getAllOrders();
-
+    Orders getOrder(String id);
 }

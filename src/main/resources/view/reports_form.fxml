@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.ReportsFormController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="707.0" prefWidth="816.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportsFormController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="353.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="408.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fceb2f" height="353.0" layoutY="353.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="408.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff421f" height="353.0" layoutX="408.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="408.0" />
+      <ImageView fx:id="imgblue" fitHeight="353.0" fitWidth="408.0" pickOnBounds="true" preserveRatio="true" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#21ff3c" height="353.0" layoutX="408.0" layoutY="353.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="408.0" />
+      <ImageView fx:id="imgred" fitHeight="353.0" fitWidth="408.0" layoutX="408.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imggreen" fitHeight="353.0" fitWidth="408.0" layoutX="408.0" layoutY="353.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgyellow" fitHeight="353.0" fitWidth="408.0" layoutY="353.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
 </AnchorPane>

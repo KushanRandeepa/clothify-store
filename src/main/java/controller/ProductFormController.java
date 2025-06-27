@@ -191,9 +191,7 @@ tableProduct.getSelectionModel().selectedItemProperty().addListener((observableV
 
     }
     void loadTable(){
-
         tableProduct.setItems(service.getAll());
-        System.out.println(service.getAll());
     }
     Product getValuesFromTexts(){
 

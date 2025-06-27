@@ -77,7 +77,7 @@ public class LoginFormController {
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             currentStage.hide();
         } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR, "LoginFailed").show();
+            new Alert(Alert.AlertType.ERROR, String.valueOf(e)).show();
         }
 
     }
