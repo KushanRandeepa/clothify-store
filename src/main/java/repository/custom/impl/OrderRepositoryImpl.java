@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class OrderRepositoryImpl implements OrdersRepository {
@@ -152,5 +153,58 @@ String sql="INSERT INTO orders VALUES(?,?,?,?,?,?,?,?,?,?)";
         }
         return ordersList;
     }
+
+    @Override
+    public List<OrdersEntity> getTodayOrders(LocalDate date) {
+        List<OrdersEntity>ordersList=new ArrayList<>();
+        try {
+            ResultSet resultSet=CrudUtil.execute("SELECT * FROM orders WHERE  order_date='"+date+"'");
+            while (resultSet.next()){
+                ordersList.add(new OrdersEntity(
+                        resultSet.getString(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getDate(4).toLocalDate(),
+                        resultSet.getTime(5).toLocalTime(),
+                        resultSet.getDouble(6),
+                        resultSet.getDouble(7),
+                        resultSet.getDouble(8),
+                        resultSet.getDouble(9),
+                        resultSet.getDouble(10)
+                ));
+            }
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,"db error").show();
+        }
+        return ordersList;
+    }
+
+    @Override
+    public List<OrdersEntity> getOrdersBetweenTime(LocalDate start, LocalDate end) {
+        try {
+            ResultSet resultSet=CrudUtil.execute("SELECT * FROM orders WHERE order_date BETWEEN ? AND ?",start,end);
+        List<OrdersEntity> ordersEntityList=new ArrayList<>();
+        while (resultSet.next()){
+            ordersEntityList.add(new OrdersEntity(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getDate(4).toLocalDate(),
+                    resultSet.getTime(5).toLocalTime(),
+                    resultSet.getDouble(6),
+                    resultSet.getDouble(7),
+                    resultSet.getDouble(8),
+                    resultSet.getDouble(9),
+                    resultSet.getDouble(10)
+            ));
+        }
+        return ordersEntityList;
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,"db error").show();
+            return Collections.emptyList();
+        }
+    }
+
 
 }

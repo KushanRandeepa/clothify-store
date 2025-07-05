@@ -10,6 +10,8 @@ import util.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class  ProductRepositoryImpl implements ProductRepository {
@@ -136,6 +138,21 @@ public class  ProductRepositoryImpl implements ProductRepository {
             }
         }
         return true;
+    }
+
+    @Override
+    public List<String> checkStockIsLow() {
+        List<String> idList= new ArrayList<>();
+        try {
+            ResultSet resultSet=CrudUtil.execute("SELECT id  FROM product_entity  WHERE stock < 10");
+            while (resultSet.next()){
+                idList.add(resultSet.getString("id"));
+            }
+            return idList;
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,"db error").show();
+            return Collections.emptyList();
+        }
     }
 
 

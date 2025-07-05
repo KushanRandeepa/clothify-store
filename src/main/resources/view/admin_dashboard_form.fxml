@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
@@ -44,37 +46,81 @@
       </JFXButton>
       <AnchorPane fx:id="root" layoutX="226.0" layoutY="-4.0" prefHeight="707.0" prefWidth="816.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#daf5f0" height="289.0" layoutX="475.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="340.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#dae9f7" height="289.0" layoutX="5.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="469.0" />
-            <Label layoutX="46.0" layoutY="25.0" prefHeight="54.0" prefWidth="400.0" text="Sales Summery with time period">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="250.0" layoutX="4.0" layoutY="447.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="807.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="271.0" layoutX="4.0" layoutY="187.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="807.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="182.0" layoutX="4.0" layoutY="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" width="807.0" />
+            <Label layoutX="206.0" layoutY="200.0" prefHeight="40.0" prefWidth="400.0" text="Sales Summery with time period">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <DatePicker fx:id="datePicker1" layoutX="52.0" layoutY="121.0" />
-            <DatePicker fx:id="datePicker2" layoutX="260.0" layoutY="121.0" />
-            <Label layoutX="249.0" layoutY="184.0" prefHeight="70.0" prefWidth="198.0" style="-fx-background-color: pink;">
+            <DatePicker fx:id="datePicker1" layoutX="408.0" layoutY="254.0" />
+            <DatePicker fx:id="datePicker2" layoutX="206.0" layoutY="254.0" />
+            <Label fx:id="lblTotalSales" layoutX="396.0" layoutY="299.0" prefHeight="48.0" prefWidth="198.0" style="-fx-background-color: pink;">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label layoutX="40.0" layoutY="184.0" prefHeight="70.0" prefWidth="198.0" text="Total Sales   =">
+            <Label layoutX="166.0" layoutY="295.0" prefHeight="54.0" prefWidth="218.0" text="Total Sales   =">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label layoutX="489.0" layoutY="25.0" prefHeight="48.0" prefWidth="311.0" text="Today Sales of each cashier">
+            <Label layoutX="484.0" layoutY="472.0" prefHeight="48.0" prefWidth="311.0" text="Today Sales of each cashier">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <TableView layoutX="489.0" layoutY="84.0" prefHeight="200.0" prefWidth="311.0">
+            <TableView fx:id="tableCashierSales" layoutX="478.0" layoutY="519.0" prefHeight="166.0" prefWidth="324.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Cashier ID" />
-                <TableColumn prefWidth="147.20001220703125" text="Amount(RS.)" />
-                  <TableColumn prefWidth="88.00006103515625" text="No.Orders" />
+                <TableColumn fx:id="colCashierId" prefWidth="69.5999755859375" text="Cashier ID" />
+                  <TableColumn fx:id="colCashierName" prefWidth="84.0" text="Cashier Name" />
+                <TableColumn fx:id="colAmount" prefWidth="105.5999755859375" text="Amount(RS.)" />
+                  <TableColumn fx:id="colNoOfOrders" prefWidth="64.80010986328125" text="No.Orders" />
               </columns>
             </TableView>
+            <Label layoutX="38.0" layoutY="359.0" prefHeight="48.0" prefWidth="430.0" text="Top 5 products of this time period  :">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="119.0" layoutY="472.0" prefHeight="40.0" prefWidth="175.0" text="Customers">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblTodaySales" layoutX="443.0" layoutY="53.0" prefHeight="48.0" prefWidth="130.0" style="-fx-background-color: pink;">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
+            <Label layoutX="122.0" layoutY="50.0" prefHeight="54.0" prefWidth="305.0" text="Today Total Sales   =">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
+            <JFXListView fx:id="listTopProducts" layoutX="446.0" layoutY="367.0" prefHeight="80.0" prefWidth="250.0" />
+            <TableView fx:id="tableCustomer" layoutX="14.0" layoutY="520.0" prefHeight="166.0" prefWidth="438.0">
+               <columns>
+                  <TableColumn fx:id="colCustID" prefWidth="75.0" text="Customer ID" />
+                  <TableColumn fx:id="colCustName" prefWidth="96.00006103515625" text="Customer name" />
+                  <TableColumn fx:id="colCusNumber" prefWidth="100.00006103515625" text="Phone Number" />
+                  <TableColumn fx:id="colCustEmail" prefWidth="84.79998779296875" text="Email" />
+                  <TableColumn fx:id="colCustOrders" prefWidth="84.79998779296875" text="No.Orders" />
+               </columns>
+            </TableView>
+            <Label layoutX="155.0" layoutY="119.0" prefHeight="54.0" prefWidth="261.0" text="No.Products Sale  =">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblTodayProducts" layoutX="443.0" layoutY="122.0" prefHeight="48.0" prefWidth="130.0" style="-fx-background-color: pink;">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Line endX="81.20001220703125" endY="210.60003662109375" layoutX="384.0" layoutY="484.0" startX="81.20001220703125" startY="-26.0" strokeWidth="3.0" />
+            <JFXButton fx:id="btnSearch" layoutX="623.0" layoutY="254.0" onAction="#btnSearchOnAction" text="Search" />
          </children></AnchorPane>
       <JFXButton fx:id="btnLogOut" layoutX="14.0" layoutY="433.0" onAction="#btnLogOutOnAction" prefHeight="39.0" prefWidth="187.0" ripplerFill="#d45656" style="-fx-background-color: blue;" text="Logout" textFill="WHITE">
          <font>

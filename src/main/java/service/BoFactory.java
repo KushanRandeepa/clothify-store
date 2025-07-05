@@ -21,6 +21,7 @@ public class BoFactory {
             case CUSTOMER:return (T) new CustomerServiceImpl();
             case REPORTS:return (T) new ReportsServiceImpl();
             case PLACE_ORDER:return (T) new PlaceOrderServiceImpl();
+            case ADMIN:return (T) new AdminDashboardServiceImpl();
         }
         return null;
     }
